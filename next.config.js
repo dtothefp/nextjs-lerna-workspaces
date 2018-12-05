@@ -1,37 +1,23 @@
 const fs = require('fs');
 const path = require('path');
+const withTM = require('next-plugin-transpile-modules');
 
-const babelRcPath = path.resolve(process.cwd(), `.babelrc`);
+const base = path.join.bind(path, process.cwd());
+const babelRcPath = base(`.babelrc`);
 
-module.exports = {
+const modules = fs.readdirSync(base(`packages`)).reduce((list, dir) => {
+  list.push(
+    require(base(`packages`, dir, `package.json`)).name
+  );
+
+  return list;
+}, []);
+
+console.log(modules);
+
+module.exports = withTM({
+  transpileModules: modules,
   webpack(webpackConfig, {defaultLoaders}) {
-
-
-    const babelRcConfig = JSON.parse(fs.readFileSync(babelRcPath, `utf8`));
-
-    defaultLoaders.babel.loader = `babel-loader`;
-
-    // Apply local babelrc config and ignore babelrc in imports
-    defaultLoaders.babel.options = {
-      ...babelRcConfig,
-      babelrc: false,
-    };
-
-    // Add babel loader for core modules
-    webpackConfig.module.rules.push(
-      {
-        test: /\.jsx?$/,
-        include(fp) {
-          const test = /(@next-lerna|packages)(?!.*node_modules)/.test(fp);
-
-          if (test) console.log('***TRANSPILING***', fp);
-
-          return test;
-        },
-        use: defaultLoaders.babel,
-      }
-    );
-
     return webpackConfig;
   },
   webpackDevMiddleware(config) {
@@ -47,4 +33,4 @@ module.exports = {
   exportPathMap: () => ({
     '/': { page: `/home` },
   }),
-};
+});
