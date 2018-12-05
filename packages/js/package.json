@@ -1,0 +1,13 @@
+{
+  "name": "@next-lerna/js",
+  "version": "0.0.0",
+  "description": "js components",
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  }
+}

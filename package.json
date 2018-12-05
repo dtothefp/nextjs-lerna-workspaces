@@ -1,0 +1,25 @@
+{
+  "name": "hello-next",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "lerna": "lerna"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
+    "lerna": "^3.5.1",
+    "next": "^7.0.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  }
+}
